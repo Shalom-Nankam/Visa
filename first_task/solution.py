@@ -7,7 +7,6 @@ from urllib.error import HTTPError
 import requests
 
 
-
 #Server url to use
 url_ = 'https://sandbox.api.visa.com/cofds-web/v1/datainfo' 
 
@@ -22,33 +21,29 @@ timeout_ = 5
 
 
 #Details of transaction to validate
-request_header = {
-    "requestMessageId": "6da6b8b024532a2e0eacb1af58581",
-    "messageDateTime": "2019-02-35 05:25:12.327"
-  },
-
 request_data = {
-    "pANs": [
-      4072208010000000
-    ],
-    "group": "STANDARD"
-  }
+   "requestHeader":{
+      "requestMessageId":"6da6b8b024532a2e0eacb1af58581",
+      "messageDateTime":"2019-02-35 05:25:12.327"
+   },
+   "requestData":{
+      "pANs":[
+         4072208010000000
+      ],
+      "group":"STANDARD"
+   }
+}
+
 
 
 
 
 #Make a post request and inspect its response
 try:
-    response = requests.post(url_, 
-                            auth= (required_id, required_password),
-                            cert= (required_cert, required_key),
-                            headers= request_header,
-                            data= request_data,
-                            timeout= timeout_
-                            )
+  response = requests.post(url= url_, auth= (required_id, required_password,), cert= (required_cert, required_key), json= request_data)                
 
-    print(response.request.headers)
-    print(response.request.body)
+  print(response.request.headers)
+  print(response.request.body)
 except HTTPError as e:
     print(e)
 
